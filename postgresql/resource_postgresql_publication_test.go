@@ -604,6 +604,13 @@ func TestAccPostgresqlPublication_Schemas(t *testing.T) {
 						"postgresql_publication.test", fmt.Sprintf("%s.#", pubTablesAttr), "0"),
 				),
 			},
+			{
+				ResourceName:            "postgresql_publication.test",
+				ImportState:             true,
+				ImportStateId:           fmt.Sprintf("%s.publication", dbName),
+				ImportStateVerify:       true,
+				ImportStateVerifyIgnore: []string{pubDropCascadeAttr},
+			},
 		},
 	})
 }
