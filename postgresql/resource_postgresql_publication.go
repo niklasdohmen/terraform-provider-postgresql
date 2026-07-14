@@ -465,8 +465,10 @@ func resourcePostgreSQLPublicationReadImpl(db *DBConnection, d *schema.ResourceD
 		publishParams = append(publishParams, "truncate")
 	}
 
-	d.SetId(generatePublicationID(d, database))
+	// Set the name before generating the ID: when importing, the name is
+	// not in the state yet and generatePublicationID reads it from there.
 	d.Set(pubNameAttr, PublicationName)
+	d.SetId(generatePublicationID(d, database))
 	d.Set(pubDatabaseAttr, database)
 	d.Set(pubOwnerAttr, pubowner)
 	d.Set(pubTablesAttr, tables)
